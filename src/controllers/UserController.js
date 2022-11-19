@@ -66,9 +66,14 @@ module.exports = class UserController{
     }
 
     static async verificaEmail(req, res) {
-      const { id } = req.params;
-      const { token } = req.body
+      const { id } = req.params
+      const {  token } = req.body
 
+      if (!token ) {
+        res.status(422).json({ message: 'Informe o token' });
+        return;
+      }
+  
       try {
         const usuario = await User.findOne({ where: { id } });
         const tokenSalvo = await Token.findOne({ where: { name:token } })
@@ -77,11 +82,8 @@ module.exports = class UserController{
           res.status(404).json({ message: `Usuário ${id} não encontrado!` });
           return;
         }
-        if (!token ) {
-          res.status(422).json({ message: 'Informe o token' });
-          return;
-        }
-        if (tokenSalvo.name !== token) {
+     
+        if (tokenSalvo !== token) {
           res.status(422).json({ message: 'Token invalido' });
           return;
         }
@@ -95,9 +97,9 @@ module.exports = class UserController{
         }
 
         const emailVerificado = await usuario.update({ email_verificado: true },
-         { where: { id:id },});
+         { where: { id } });
   
-        res.status(200).json({message: `O email do usuário  ${emailVerificado.name} foi confirmado`,});
+        res.status(200).json({message: `O email do usuário  ${emailVerificado.name} foi confirmado`});
   
       } catch (error) {
         return res.status(500).json(error.message);

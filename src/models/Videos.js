@@ -3,6 +3,12 @@ const db = require('../database/conn')
 
 const Videos = db.define('Video',{
 
+  id:{
+    type:DataTypes.UUID,
+    defaultValue:DataTypes.UUIDV4,
+    primaryKey:true,
+    allowNull:false,
+  },
     titulo: {
         allowNull: false,
         type: DataTypes.STRING
@@ -13,11 +19,11 @@ const Videos = db.define('Video',{
       },
       user_id:{
         allowNull:false,
-        type:DataTypes.INTEGER,
+        type:DataTypes.UUID,
       },
       categoria_id:{
         allowNull:false,
-        type:DataTypes.INTEGER,
+        type:DataTypes.UUID,
       },
       url: {
         allowNull: false,

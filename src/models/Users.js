@@ -1,10 +1,16 @@
-const { DataTypes, } = require('sequelize')
+const { DataTypes, UUIDV4, } = require('sequelize')
 const db = require('../database/conn')
 const Video = require('./Videos')
 const Categoria = require('./Categorias')
 const Tokens = require('./Tokens')
 const User = db.define('User',{
 
+  id:{
+    type:DataTypes.UUID,
+    defaultValue:DataTypes.UUIDV4,
+    primaryKey:true,
+    allowNull:false,
+  },
     name: {
         allowNull:false,
         type: DataTypes.STRING
